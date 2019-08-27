@@ -9,6 +9,10 @@ import (
 	"net/http"
 )
 
+var (
+	ErrUnsupportedContentType = errors.New("render: unsupported content-type")
+)
+
 // Decode is a package-level variable set to our default Decoder. We do this
 // because it allows you to set render.Decode to another function with the
 // same function signature, while also utilizing the render.Decoder() function
@@ -27,7 +31,8 @@ func DefaultDecoder(r *http.Request, v interface{}) error {
 		err = DecodeXML(r.Body, v)
 	// case ContentTypeForm: // TODO
 	default:
-		err = errors.New("render: unable to automatically decode the request content type")
+		//err = errors.New("render: unable to automatically decode the request content type")
+		err = ErrUnsupportedContentType
 	}
 
 	return err
